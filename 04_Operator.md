@@ -200,6 +200,63 @@ console.log(reslut); // 홀수
 
 ![](C:\Users\Windows\Pictures\Saved Pictures\논리연산자.png)
 
+```jsx
+// 논리합(||) 연산자
+true || true;  // true
+true || false; // true
+false || true; // true
+false || false;// false
+
+// 논리곱(&&) 연산자
+true && true;  // true
+true && false; // false
+false && true; // false
+false && false;// false
+
+// 논리 부정(!) 연산자
+!true;  // false
+!false; // true
+```
+
+- 논리 부정(!) 연산자는 언제나 불리언 값을 반환한다. 단, 피연산자가 반드시 불리언 값일 필요는 없다. 피연산자가 불리언 값이 아니면 불리언 타입으로 암묵적 타입 변환된다.
+
 
 
 ## 6. typeof 연산자
+
+- typeof 연산자는 피연산자의 데이터 타입을 문자열로 반환한다. 이전에 배웠던 7가지 데이터 타입 중의 하나를 반환한다.
+- 'null'을 반환하는 경우는 없고, 함수의 경우 'function'을 반환한다. typeof 연산자가 반환하는 문자열은 7개의 데이터 타입과 정확히 일치하지는 않는다.
+
+```jsx
+typeof ''            // "string"
+typeof 10            // "number"
+typeof NaN           // "number"
+typeof undefined     // "undefined"
+**typeof null          // "object"**
+typeof {}            // "object"
+typeof function() {} // "function" 
+```
+
+- typeof 연산자로 null 값을 연산해 보면 'null'이 아닌 'object'를 반환하므로 주의해야 한다. 다라서 값이 null 타입인지 확인할 때는 typeof 연산자를 사용하지 않고 일치연산자(===)를 사용한다.
+
+```jsx
+var yoo = null;
+typeof yoo === null; // false
+**yoo === null;        // true**
+```
+
+- 선언하지 않은 식별자를 typeof 연산자로 연산하면 ReferenceError가 발생하지 않고 unddefined를 반환한다.
+
+  
+
+## 7. 지수 연산자
+
+- ES7에서 도입된 지수 연산자는 좌항의 피연산자는 밑으로, 우항의 피연산자를 지수로 거듭 제곱하여 숫자 값을 반환한다.
+
+```jsx
+2 ** 2;  // 4
+2 ** 0;  // 1
+2 ** -2; // 0.25
+```
+
+- 지수 연산자는 다른 산술 연산자와마찬가지로 할당 연산자와 함께 사용할 수 있고, 이항 연산자 중에서 우선순위가 가장 높다.
