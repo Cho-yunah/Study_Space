@@ -20,7 +20,7 @@
 
 기본 **아스키 코드는 7개의 비트로 구성**되어 있고, 128개의 문자를 표현할 수 있다.  예를 들어, 알파벳 A는 10진수 기준으로 65, 알파벳 B는 66으로 정해져 있다.
 
-![](C:\Users\Windows\Pictures\Saved Pictures\아스키 코드.png)
+![아스키 코드](https://user-images.githubusercontent.com/68039555/91515543-61f8a100-e924-11ea-8949-e108b9bbaf1f.png)
 
 만약 M을 2진법으로 표현한다면, 
 
@@ -66,7 +66,7 @@ M: 1001101 = 2^6x1 + 2^5x0 + 2^4x0 + 2^3x1 + 2^2x1 + 2^1x0 + 2^0x1 = 64+8+4+1=77
 
 **Unicode를 인코딩하는 방식 중 가장 일반적인 방식이며, 문자를 표현하는데 필요한 byte 수가 글자마다 다르다.**
 
-![](C:\Users\Windows\Pictures\Saved Pictures\유니코드 utf-8.png)
+![유니코드 utf-8](https://user-images.githubusercontent.com/68039555/91515501-4beae080-e924-11ea-9a10-6b0a14a89e4b.png)
 
 예를 들어, 'abcd' 문자를 저장한다면, 각 문자당 1byte씩 4byte만으로 문자를 표현할 수 있다. 
 
