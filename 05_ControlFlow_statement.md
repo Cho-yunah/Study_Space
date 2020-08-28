@@ -1,4 +1,4 @@
-# 05 제어문 (control flow statement)
+# 05 제어문 (Control flow statement)
 
 코드 블록은 위에서 아래방향으로 순차적으로 실행된다. 이 때 제어문을 사용하면 코드의 실행 흐름을 인위적으로 제어할 수 있다.
 
