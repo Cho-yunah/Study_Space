@@ -58,7 +58,7 @@ var user = {id: 1, name: 'cho'};
 
 
 
-### 변수 이름 만들때 주의사항_ 5가지
+### 2.1 변수 이름 만들때 주의사항_ 5가지
 
 ```jsx
 1. var 1st = 10; => XX
@@ -74,6 +74,22 @@ var user = {id: 1, name: 'cho'};
 4. 변수는 대문자가 아닌 소문자로 시작한다.
 5. 여러 단어가 조합되는 경우 다음과 같이 낙타 표기법(camelcase)으로 작성한다.
 
+* 예약어는 식별자로 사용할 수 없다.
+
+  - 예약어는 프로그래밍 언어에서 사용되고 있거나 사용될 예정인 단어를 말한다. 
+
+  ```
+  await break case catch class const continue debugger default delete do else enum export extends false finally for function if implements* import in Instanceof interface* let* new null package* private* protected* public* return super static* switch this throw true try typeof var void while with yield*
+  
+  * 식별자로 사용 가능하나 Strict Mode에서는 사용 불가
+  ```
+
+### 2.2 식별자 네이밍 규칙
+
+
+
+
+
 
 
 ## 3. 변수 선언
@@ -86,7 +102,7 @@ var user = {id: 1, name: 'cho'};
 - 만약 선언하지 않은 식별자에 접근하면 ReferenceError(참조 에러)가 발생한다. 이는 자바스크립트 엔진이 값을 참조하려 했을 때, 식별자를 찾을 수 없을 때 발생한다.
 - 초기화: 변수를 선언하고 값을 할당하는 것
 
-### 변수 선언의 실행 시점_**변수 호이스팅**
+### 3.1 변수 선언의 실행 시점_**변수 호이스팅**
 
 ```jsx
 console.log(hoisting); //undefined
@@ -117,7 +133,7 @@ console.log(hoisting); // 'success'
 
 ```jsx
 1.  var result; // 변수 선언
-    score = 70; // 값의 할당
+    result = 70; // 값의 할당
 2.  var result = 70; // 변수 선언과 값의 할당
 ```
 
@@ -125,10 +141,10 @@ console.log(hoisting); // 'success'
 - 변수 선언은 **런타임 이전(1)에 먼저 실행되지만, 값의 할당(2)은 런타임에 실행**된다는 것이다. (런타임 = 소스코드가 순차적으로 실행되는 시점)
 
 ```jsx
-console.log(result); //undefined
+console.log(score); //undefined
 var score; // 1- 변수 선언
 score =80; // 2- 값의 할당
-console.log(result); // 70
+console.log(score); // 70
 ```
 
 - 변수 선언과 값의 할당을 하나의 문으로 단축 표현을 해도 자바스크립트 엔진은 변수의 선언과 값의 할당을 2개의 문으로 나누어 각각 실행한다.
@@ -147,4 +163,5 @@ console.log(result); // 70
 
 ### 6. 가비지 콜렉터(garbage collector)
 
-* 가비지 콜렉터는 애플리케이션이 할당한 **메모리 공간을 주기적으로 검사하여 더 이상 사용되고 있지 않는 메모리를 해제(release)하는 기능**을 말한다. 더 이상 사용되고 있지 않는 메모리란, 어떤 식별자도 참조하지 않는 메모리 공간을 의미한다. 
+* 가비지 콜렉터는 애플리케이션이 할당한 **메모리 공간을 주기적으로 검사하여 더 이상 사용되고 있지 않는 메모리를 해제(release)하는 기능**을 말한다. 더 이상 사용되고 있지 않는 메모리란, 어떤 **식별자도 참조하지 않는 메모리 공간**을 의미한다. 
+* 메모리를 해제한다는 것은 네임 바인딩을 해제한다는 것( 네임 바임딩은 식별자와 값을 묶어놓은것)
