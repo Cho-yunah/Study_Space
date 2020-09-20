@@ -66,20 +66,24 @@ console.log(toWeirdCase ('my name is lee'))  // 'My NaMe Is LeE'
 4. 해당하는 조건에 따라 기존 문자열에 추가되면서 출력이 될수 있도록 설정한다.
 5. 함수가 string 값을 반환하도록 설정한다.
 
-```jsx
+```js
 function toWeirdCase(s) {
-  var string = '';
-  
-  for (var i = 0; i < s.length; i++) {
-    if (i % 2 === 0) {
-      string= string+s[i].toUpperCase();
+
+  var word = s.split(' ');
+  var result = '';
+
+  for (var m = 0; m < word.length; m++) {
+    for (var i = 0; i < word[m].length; i++) {
+      if (i % 2 === 0) {
+        result += word[m][i].toUpperCase();
+      } else {
+        result += word[m][i];
+      }
     }
-    else {
-      string= string+ s[i].toLowerCase();
-    }
+    result += ' ';
   }
-  return string;
+  return result;
 }
-  console.log(toWeirdCase('hello world'));  
-  console.log(toWeirdCase('my name is lee'));
+console.log(toWeirdCase('hello world'));
+console.log(toWeirdCase('my name is lee')); 
 ```
