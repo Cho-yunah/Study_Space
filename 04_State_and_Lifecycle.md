@@ -1,13 +1,15 @@
-# 04. State와 생명주기
+# 04. State and LifeCycle
 
 
 
 ## 1. State
 
 - State 는 props와 유사하지만, 비공개이며 컴포넌트에 의해 완전히 제어된다.
-- props오 state는 일반 JS객체로, 두객체 모두 랜더링 결과물에 영향을 주는 정보를 갖고 있다. 그러나 한가지 중요한 방식에서 차이가 있다. props는 함수의 매개변수처럼 컴포넌트에 전달되는 반면, state는 함수 내에 선언된 변수처럼 컴포넌트 안에서 관리된다.
-- React 컴포넌트가 특정 시점에 속성 중 하나를 변경해야하는 경우, 해당 속성은 state의 일부여야한다. 그렇지 않으면, props가 해당 컴포넌트의 일부여야 한다.
-- 가장 중요한 점은, props는 변해서는 안되는 불변성의 특징이 있으나, state는 setState를 통해 변경이 가능하다.
+- props와 state는 일반 JS객체로, 두객체 모두 랜더링 결과물에 영향을 주는 정보를 갖고 있다. 그러나 한가지 중요한 방식에서 차이가 있다. props는 함수의 매개변수처럼 컴포넌트에 전달되는 반면, state는 함수 내에 선언된 변수처럼 컴포넌트 안에서 관리된다.
+- 가장 중요한 차이점은,
+  1. props는 부모 구성요소에서 설정한 정보를 포함하며 변경할 수 없는 불변성의 특징이 있다.
+  2. state는 구성요소가 자체적으로 초기화, 변경 및 사용할수 있는 정보를 포함하고,setState를 통해 변경이 가능하다.
+- state는 객체안에 넣는 것이 리액트의 문법이고 이 state 로는 view에 관계된것만 넣으면 된다.
 
 
 
@@ -23,8 +25,6 @@
 
   최근은 새로운 버전에서 이름이 바뀌었다.
 
-
-
 - **생명주기 과정**
 
 1. Initialization ⇒ 준비단계 = constructor
@@ -34,7 +34,11 @@
 
 
 
-### 2.1 Component 생성 및 마운트 (16.3 버전 이전)
+
+
+## 3. v16.3 이전의 Component Life Cycle
+
+### 3.1 Component 생성 및 마운트 (16.3 버전 이전)
 
 *constructor ⇒  ComponentWillMount ⇒  **render(최초 랜더)** ⇒ ComponentDidMount*
 
@@ -92,13 +96,15 @@ class App extends React.Component {
 }
 ```
 
-### 2.2 Component props, state 변경 (v16.3 이전)
+
+
+### 3.2 Component props, state 변경 (v16.3 이전)
 
 - *props / state 변경 (=update)*
 
   1. ***componentWillReceiveProps : props 변경이 일어남\***
 
-     : props가 새로 지정되어 변경이 일어나면 바로 호출된다.
+     : props가 새로 지정되어 변경이 일어나면 바로 호출된다.   (nextProps ⇒ state를 조작하는 공간)
 
      state의 변경에 반응하지 않는다.  state를 변경해야 한다면 `setState`를 이용해 변경한다.
 
@@ -106,10 +112,12 @@ class App extends React.Component {
 
      : 꼭 리턴을 해줘야한다.
 
-     1. true면 업데이트 한다 → render 함수 호출 (defalut 값)
+     1. true면 업데이트 한다 → render 함수 호출 (=defalut 값)
      2. false면 업데이트 안한다 → 밑에 줄 코드로 가지 않는다.
 
      =⇒ 필요한 업데이트만 할수 있게 한다. ⇒ 성능 최적화
+
+     - if 문등을 사용하여 this.props와 nextProps를 비교하고, 이 props 객체가 변했을때 새로운 객체를 만들어 랜더링을 다시한다. =⇒ immutable 하게 관리하는 방식
 
   3. ***componentWillUpdate : 업데이트 하기 직전\***
 
@@ -123,13 +131,87 @@ class App extends React.Component {
 
      : 컴포넌트가 재 랜더링을 마치면 불린다.
 
-### 2.3 Component 언마운트 (v16.3 이전)
+
+
+### 3.3 Component 언마운트 (v16.3 이전)
 
 - React 컴포넌트가 삭제되기 직전에  ***componentWillUnmount()***가 호출되고, 생명주기가 끝난다.
 
 
 
+
+
+## 4. v16.3 ~ Component Life Cycle
+
+### 4.1 생명주기 단계의 이름 변경
+
+- 기존의 생명주기 단계의 이름들이 의미가 명확하게 바뀌었다.
+
+  componentWillMount ⇒ getDerivedStateFromProps
+
+  componentWillReceiveProps ⇒ getDerivedStateFromProps
+
+  componentWillUpdate ⇒ getSnapshotBeforeUpdate
+
+
+
+### 4.2 Component생성 및 마운트 (v16.3)
+
+constructor ⇒ **static getDerivedStateFromProps (클래스 매서드)** ⇒ render(최초랜더) ⇒ componentDidMount
+
+- getDerivedStateFromProps 의 return이 state가 된다. (조건부로 만들수 있다.)
+
+```jsx
+import React from 'react';
+
+class App extends React.Component {
+  state = {
+    age: 0,
+  };
+
+  **static getDerivedStateFromProps**(nextProps, prevState) {
+    console.log(nextProps, prevState);
+    **if** (prevState.age !== nextProps.age) {
+      return { age: nextProps.age };
+    }
+    return null;
+  }
+
+  render() {
+    console.log('App render');
+    return <div>{this.state.age}</div>;
+  }
+}
+
+export default App;
+```
+
+
+
+## 4.3 Component props, state 변경 (v16.3)
+
+- component가 업데이트 되면
+
+  1. props 변경일 경우:  static getDerivedStateFromProps 부터 시작
+
+     state 변경일 경우:  shouldComponentUpdate 부터 시작
+
+  2. render
+
+  3. getSnapshotBeforeUpdate
+
+     - DOM으로부터 값을 꺼내는 것이고, snapshot을 return한다.
+     - 업데이트 된 DOM의 전과 후를 기억할수 있도록 한다.
+
+  4. componentDidUpdate
+
+
+
+
+
 ## 3. 에러처리
+
+- 리액트 컴포넌트에서 에러가 났을때는 그 컴포넌트를 사용하는 부모가 그 에러를 알아차릴수 있다.
 
 ```jsx
 import {ErrorBoundary} from 'react-error-boundary'
