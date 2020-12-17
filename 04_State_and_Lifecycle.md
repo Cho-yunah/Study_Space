@@ -211,29 +211,74 @@ export default App;
 
 ## 3. 에러처리
 
-- 리액트 컴포넌트에서 에러가 났을때는 그 컴포넌트를 사용하는 부모가 그 에러를 알아차릴수 있다.
+- 자바스크립트에서는 변수나 함수에서 오류가 나면 오류가 난 부분이 동작을 하지 않고 console에 에러가 출력되지만, 리액트의 경우에는 하나의 큰 애플리케이션으로 만들어져 있기 때문에 한 컴포넌트에서 에러가 나면 애플리케이션 전체가 다운되어 동작하지 않는다.
+- 이러한 문제들로 에러를 캐치하는 기능이 추가되어서 **리액트 컴포넌트에서 에러가 났을때, 그 컴포넌트를 사용하는 부모가 그 에러를 알아차릴수 있다.**
+- 컴포넌트의 부모가 Error 를 캐치할 수 있기 때문에, **에러를 캐치하는 컴포넌트는 최상단에 위치한다.**
 
 ```jsx
-import {ErrorBoundary} from 'react-error-boundary'
- 
-function ErrorFallback({error, resetErrorBoundary}) {
-  return (
-    <div role="alert">
-      <p>Something went wrong:</p>
-      <pre>{error.message}</pre>
-      <button onClick={resetErrorBoundary}>Try again</button>
-    </div>
-  )
+import React from 'react';
+
+function Button() {
+	throw new Error('에러!!');
+	return <button> 에러 </button>;
 }
- 
-const ui = (
-  <ErrorBoundary
-    **FallbackComponent={ErrorFallback} // 에러가 났을경우 넣어줄 컴포넌트를 넣어준다.**
-    onReset={() => {
-      // reset the state of your app so the error doesn't happen again
-    }}
-  >
-    <ComponentThatMayError />
-  </ErrorBoundary>
-)
+
+class App extends React.Component {
+  state = {
+    error: false,
+  };
+  componentDidCatch() { // 이 메서드를 사용하여 에러를 캐치
+    this.setState({ error: true });
+  }
+  render() {
+    if (this.state.hasError) {
+      return <div>에러났다!!</div>;
+    }
+    return (
+      <div>
+        <Button />
+      </div>
+    );
+  }
+}
+
+export default App;
 ```
+
+- componentDidCatch 메서드를 사용하여 에러를 캐치할 수 있지만 이러한 작업을 매번 하는것이 귀찮다.
+
+- 그래서 등장한 것이 Error Boundaries다. 이 라이브러리로 에러 반복되는 에러처리를 간단하게 할수 있다. 이 라이브러리를 사용하기 위해 먼저 설치를 한다.
+
+  `npm instll --save react-error-boundary`
+
+- 설치를 완료하면 이 Error Boundary를 사용하려는 파일에 넣어준다.
+
+  ```jsx
+  import React from 'react';
+  
+  // 상위에 에러바운더리를 import 한다.
+  import { ErrorBoundary } from "react-error-boundary";
+  
+  function Button() {
+  	throw new Error('에러!!');
+  	return <button> 에러 </button>;
+  }
+  
+  // 에러가 났을 경우 보여줄 에러페이지
+  function ErrorPage() {
+    return <div>에러가 났다!</div>
+  }
+  
+  // render 함수 안에 <ErrorBoundary>를 넣는다.
+  class App extends React.Component {
+    render() {
+      return (
+        <ErrorBoundary FallbackComponent={ErrorPage}>
+  	      <div>
+  		      <Button />
+  		    </div>
+        </ErrorBoundary>
+      )
+    }
+  }
+  ```
