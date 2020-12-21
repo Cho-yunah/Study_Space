@@ -14,6 +14,8 @@
 2. CSS Module: 리액트 프로젝트에서 컴포넌트를 스타일링 할 때 CSS Module 이라는 기술을 사용하면, CSS 클래스가 중첩되는 것을 완벽히 방지할 수 있다.
 3. Sass Module:
 
+
+
 ### 1.1 Webpack의 역할 ❗
 
 - 보통 index.js 파일안에는 여러 컴포넌트들을 import하는데, 이 때 웹팩이 import 된 모듈들을 하나로 합치는 (bundling) 역할을 한다.
@@ -24,7 +26,7 @@
 - 웹팩의 설정이 어떻게 되어 있는지 확인하려면 다음과 같다.
 
 ```jsx
-// 설치 명령어로 만들고 eject 하여 안의 내용을 살펴본다
+// CRA 파일생성 후, eject 하여 안의 내용을 살펴본다
 npx create-react-app style-loaders-example
 cd style-loaders-example
 npm run eject
@@ -54,6 +56,8 @@ npm run eject
 - 만약, `create-react-app`에서 지원하지 않는 파일 형식을 import하고 싶다면, eject해서 설치하고 그 설정을 직접 우리가 만들어야 한다.
 
 - eject 는 한번 하면 다시 되돌릴수 없다는 것을 주의해야 한다. eject를 할 경우 CRA로 다시 돌아가지 못하기 때문에, CRA에서 새로운 기능이 추가되었을때 그에 대한 업그레이드를 받을수 없고, 나의 설정에 대한 지원을 받기가 어렵다는 것이 단점이다.
+
+
 
 ## 2. Sass 의 사용
 
@@ -96,7 +100,9 @@ npm run eject
 }
 ```
 
-## 3. Module 의 사용
+
+
+## 3. Module 의 사용 (CSS, SASS)
 
 - 모듈도 CRA에서 기본적으로 제공하는 기능이다.
 - 기존의 `이름.css` 파일의 이름을 `이름.module.css`로 바꾸어 import한다.
@@ -106,13 +112,115 @@ npm run eject
 모듈:  import styles from "./App.module.css";
 ```
 
-- 이렇게 
-
-  ```
-  module.css
-  ```
-
-  를 import하면, 내부적으로 다음과 같은 동작을 한다.
+- 이렇게 `module.css`를 import하면, 내부적으로 다음과 같은 동작을 한다.
 
   1. 어떤 이상한 이름으로 클래스를 바꾼후, 스타일을 추가한다. (⇒ 자동으로 이름을 만들어주기 때문에 module 파일끼리는 클래스 이름이 절대 겹치지 않는다.)
   2. 실제 이름을 키로 변경한 이상한 이름을 value로 하는 객체를 export default 한다.
+
+- Module의 개념은 css 파일을 만드는데만 사용하는 것이 아니라 리액트 컴포넌트를 만드는 데도 사용되는 것은 당연하다. 이 컴포넌트를 만들때, 조건부로 className에 따라 렌더링을 다르게 할 때나, 여러 className을 사용해야 할때 간혹 불편함이 생긴다.
+
+  예를 들면,
+
+  ```jsx
+  // Button.jsx
+  import React from 'react';
+  import styles from './Button.module.css';
+  
+  export default class Button extends React.Component {
+    state = {
+      loading: false,
+    };
+  
+    startLoading = () => {
+      console.log('start');
+      this.setState({ loading: true });
+      setTimeout(() => {
+        this.setState({ loading: false });
+      }, 1000);
+    };
+  
+    render() {
+      const { loading } = this.state;
+      return (
+        <button
+          **className={
+            loading ? `${styles.button} ${styles.loading}` : styles.button**
+          }
+          {...this.props}
+          onClick={this.startLoading}
+        />
+      );
+    }
+  }
+  ```
+
+  - 위와 같은 예제에서 button의 className에 조건을 줄때, class 명을 조건에 따라 여러개 달아주어야 하므로 템플릿 리터럴 `${ }` 을 사용할 수 밖에 없다. 이 과정을 간단하게 해주는 라이브러리를 사용하면 템플릿 리터럴 없이 작성할 수 있다.
+
+    ```jsx
+    설치 명령어 npm i classnames
+    
+     설치 후 => import classNames from 'classnames';
+    ```
+
+    - classnames 라는 라이브러리를 설치하고 사용하면 다음과 같이 코드를 쓸수 있다.
+
+    ```jsx
+    console.log(classNames('foo', 'bar')); // "foo bar"
+    console.log(classNames('foo', 'bar', 'baz')); // "foo bar baz"
+    console.log(classNames({ foo: true }, { bar: true })); // "foo bar"
+    console.log(classNames({ foo: true }, { bar: false })); // "foo"
+    console.log(classNames(null, false, 'bar', undefined, 0, 1, { baz: null }, '')); // "bar 1"
+    console.log(classNames(styles.button, styles.loading)); // Button_button__2Ce79 Button_loading__XEngF
+    ```
+
+    - 0을 제외한 falsy한 값들 (false, null, undefined, ' ')은 무시된다.
+    - 위의 button 예제에 classnames 라이브러리를 사용하면 다음과 같이 만들수 있다.
+
+    ```jsx
+    // Button.jsx
+    return(   
+    	<button
+    		{this.props}
+         **className={
+    				classNames(styles.button, loading && styles.loading)}**
+            onClick={this.startLoading}
+          />
+        );
+    ```
+
+    - classnames 라이브러리과 module을 함께 사용한 상태에서 구문을 더 간단히 줄이고 싶다면, classnames을 import할 때 bind 메서드를 묶어주고, 그것을 변수에 할당해서 사용하면 된다.
+
+    ```jsx
+    // Button.jsx
+    **import classNames from 'classnames/bind';**
+    
+    **const cx= classNames.bind(styles);**
+    	...
+    return(   
+    	<button
+    		{...this.props}
+         **className={
+    				classNames={cx("button", {loading})}**
+            onClick={this.startLoading}
+          />
+        );
+    ```
+
+
+
+## 4. Style Components
+
+- 컴포넌트 스타일링을 할때 사용되는 라이브러리 중의 하나다.
+
+```jsx
+// CRA 파일생성 후, eject 하여 안의 내용을 살펴본다
+npx create-react-app styled-components-example
+cd styled-components-example
+npm i styled-components
+// Button.jsx
+**import styled from "styled-component';**
+
+const StyledButton = **styled.button``;**
+
+export default StyledButton;
+```
