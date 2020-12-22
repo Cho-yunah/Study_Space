@@ -220,7 +220,175 @@ npm i styled-components
 // Button.jsx
 **import styled from "styled-component';**
 
-const StyledButton = **styled.button``;**
+const StyledButton = **styled.button`이 안에 style을 넣어준다`;**
 
 export default StyledButton;
 ```
+
+- style components는 기존의 클래스 네임을 특이하게 바꾼다던지 하는것이 아니라 새로운 클래스 네임을 생성해서 붙여준다. = 자동화
+
+- style components는 지금까지 봐왔던 문법과 조금 다르게 생소할 수 있다. 스타일을 넣어줄 컴포넌트 뒤에 `` 을 쓰고, 그 백틱 사이 안에 문자열로 스타일 프로퍼티들을 넣어주는 방식이다.
+
+  - 그러나 이 방식의 단점은 style 자동완성이 되지 않는다는 점이다.
+
+  ```jsx
+  // Button.jsx
+  **import styled from "styled-component';**
+  
+  const StyledButton = styled.button**`
+  	background: transparent;
+  	border-radius: 3px;
+  	border: 2px solid palevioletred;
+  	color: red;
+  	margin: 0 1em
+  `;**
+  
+  export default StyledButton;
+  ```
+
+- 만약 위의 전체 스타일 프로퍼티에서 일부 프로퍼티만 변경을 하고 싶을때, 새로운 버튼 컴포넌트를 만들어서 스타일을 새로 주어야 한다고 생각할 수 있다.
+
+  그러나 style components에서 제공하는 문법으로 이 문제를 해결할 수 있다. ${ 조건문 } 을 넣어주는 방법이다.
+
+  ```jsx
+  // button.jsx
+  const StyledButton = styled.button**`
+  	background: transparent;
+  	border-radius: 3px;
+  	border: 2px solid palevioletred;
+  	color: red;
+  	margin: 0 1em**
+  
+  	${(props) => 
+  		props.primary &&
+  			**css**` // 조건연산자를 사용했을 때 오류가 나면 앞에 css를 붙인다. 
+  				background; paleviolered;
+  				color: white;
+  			`}}
+  **`;**
+  ```
+
+- 스타일이 적용된 엘리먼트인데, 다른 태그로 렌더링해서 사용하고 싶을 때는 `as='#'` 을 붙여서 사용한다.
+
+  ```jsx
+  <Button **as="a" href= "/hello"**>
+  	버튼
+  </Button>
+  // Button에 적용된 스타일은 그대로 사용하지만, 다른 태그로 사용할 것이라는 뜻이다.
+  ```
+
+  - as 키워드는 기본 스타일 세팅을 마치고 그 스타일을 다른 태그에 적용할 때 용이하게 사용된다.
+  - 태그가 아닌 객체(함수 등)을 넣어서 사용해도 된다.
+
+
+
+## 5. React Shadow
+
+- custom element를 만들어서 새로운 document를 생성함으로써 캡슐화되어 분리된 영역을 만드는 것이다.
+- MDN의 웹 컴포넌트 문서에서 커스텀 엘리먼트에 대한 내용이 자세히 설명되어 있다.
+
+[웹 컴포넌트](https://developer.mozilla.org/ko/docs/Web/Web_Components)
+
+- react shadow도 설치를 하여 사용할 수 있다.
+
+```jsx
+// CRA 파일생성 후 
+npx create-react-app react-shadow-example
+cd react-shadow-example
+npm i react-shadow
+```
+
+- 사용법은 다음과 같다.
+
+```jsx
+// Shadow.jsx
+import React fro "react";
+
+const style = `p {color: orange}`;
+
+export default function Shadow() {
+	return ( 
+		<root.div>
+			<p> 안녕하세요 </P>
+			<style type="text/css">{style}</style>
+		</root.div>
+	);
+} 
+// App.js
+import Shadow from "./components/Shadow";
+
+function App () {
+	return (
+		<Shadow />
+	);
+}
+```
+
+- React shadow를 사용하면 완전히 캡슐화를 할 수 있지만 css style을 문자열로 작성해야 한다는 점이 단점이다.
+
+  이 단점을 해결하기 위해 1) css 파일을 별도로 관리하면서 필요할때 가져오는 방법과 2) 스타일 컴포넌트와 연결하는 방법이 있다.
+
+  두번째 방법은 용량이 커질수 있다는 단점과 몇가지 step이 더 필요하다는 단점이 있으므로, 어떻게 써야 할지를 고민해봐야 한다.
+
+
+
+## 6. Ant Design
+
+- 웹 디자인을 제공하는 라이브러리 중의 하나로, 구글의 Material-Ui 도 있다.
+
+- 이 또한 CRA에서 제공하지 않는 라이브러리이기 때문에 설치를 해야한다.
+
+  ```jsx
+  cd antd-example
+  npm i antd
+  ```
+
+  설치 후에는 import를 한다.
+
+  ```jsx
+  // index.js
+  import 'antd/dist/antd.css';
+  // App.js
+  import {가져올 컴포넌트 이름} from 'antd';
+  ```
+
+  - 위와 같은 방법을 사용하면 필요한 컴포넌트를 가져올때 마다 import를 해야 하는데 이게 번거롭다면 eject하여 수동으로 설정을 넣어주는 방법이 있다.
+
+  ```jsx
+  npm run eject
+  npm install babel-plugin-import --save-dev
+  ```
+
+  ```jsx
+  // webpack 설정에 다음과 같은 내용을 추가한다.
+  {
+    ...
+    "babel": {
+      "presets": [
+        "react-app"
+      ],
+      "plugins": [
+        [
+          "import",
+          {
+            "libraryName": "antd",
+            "libraryDirectory": "es",
+            "style": "css"
+          }
+        ]
+      ]
+    },
+    ...
+  }
+  ```
+
+  이렇게 하면 컴포넌트를 가져올때마다 일일이 import를 하지 않아도 된다.
+
+- Ant 에서 제공하는 아이콘을 가져오고 싶을 때는 라이브러리를 추가로 설치한다.
+
+  ```jsx
+  설치명령어 npm install @ant-design/icons
+  
+  //App.js
+  import {Button} from 'antd';
+  ```
