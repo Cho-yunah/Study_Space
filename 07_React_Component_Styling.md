@@ -388,7 +388,86 @@ function App () {
 
   ```jsx
   설치명령어 npm install @ant-design/icons
-  
-  //App.js
-  import {Button} from 'antd';
+  // App.js에 import하기 =>	import {Button} from 'antd';
   ```
+
+
+
+### 6.1 Ant 디자인의 Row & Col
+
+- Ant 디자인에서 제공하는 것 중의 하나는 Row, Col 기능이다. 이것은 브라우저의 뷰포트를 일정하게 나누어 표?와 같은 구조를 만들어준다.
+- 이를 사용하면 레이아웃을 좀더 간단하게 할수 있고, 반응형을 만들때에도 꽤 유용하다.
+
+```jsx
+import React from 'react';
+**import { Row, Col } from 'antd';**
+
+const colStyle = () => ({
+  height: 50,
+  backgroundColor: 'red',
+  opacity: Math.round(Math.random() * 10) / 10,
+});
+
+**// <Col span={24중에 어느정도 차지할지 정수} />**
+
+function App() {
+  return (
+    <div className="App">
+      <Row>
+        <Col span={12} style={colStyle()} />
+        <Col span={12} style={colStyle()} />
+      </Row>
+      <Row>
+        <Col span={8} style={colStyle()} />
+        <Col span={8} style={colStyle()} />
+        <Col span={8} style={colStyle()} />
+      </Row>
+      <Row>
+        <Col span={6} style={colStyle()} />
+        <Col span={6} style={colStyle()} />
+        <Col span={6} style={colStyle()} />
+        <Col span={6} style={colStyle()} />
+      </Row>
+    </div>
+  );
+}
+
+export default App;
+```
+
+위의 코드가 출력된 모습은 아래와 같다.
+
+![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/aa804453-7301-4f89-aaaf-787a2c8bbc2b/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/aa804453-7301-4f89-aaaf-787a2c8bbc2b/Untitled.png)
+
+- 중간간격을 뗄수도 있는데 gutter라는 키워드를 넣어주면 된다.  하나의 칸이나 열을 비워두고 싶을 때는 offset 키워드를 사용한다.
+
+```jsx
+**// <Row gutter={16 + 8n 의 정수} />
+// <Col offset={24 중 건너띄고 싶은 정수} />**
+<Row gutter={16}>
+   <MyCol span={8} />
+   <MyCol span={8} offset={8} />
+</Row>
+```
+
+- html에서의 flex의 개념으로 정렬을 할 수 있기 때문에 그에 맞는 어트리뷰트로 정렬을 하면 된다.
+
+```jsx
+**// <Row justify="좌우정렬" align="위아래정렬" />**
+<Row
+  style={{
+     height: 300,
+   }}
+   justify="start"
+   align="top"
+ >
+  <MyCol span={4} />
+  <MyCol span={4} />
+  <MyCol span={4} />
+  <MyCol span={4} />
+</Row>
+```
+
+![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/e3ecb798-bcdb-4eb8-92ff-62c9e9dc757d/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/e3ecb798-bcdb-4eb8-92ff-62c9e9dc757d/Untitled.png)
+
+- Ant 디자인에서 이미 만들어진 레이아웃을 가져올수도 있다. Ant 디자인에 대한 것은 홈페이지에서 더 자세히 알수 있다.
