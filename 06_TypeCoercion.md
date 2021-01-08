@@ -97,4 +97,12 @@ b) !!'x';, !!Infinity;, !!null;, !!{ };   // true, true, false, true
 
 ### 4.1 논리연산자를 사용한 단축 평가
 
-![단축평가 표현식](https://user-images.githubusercontent.com/68039555/91639032-a1231100-ea4e-11ea-8e4a-18f6c657a6e9.png)
+- 단축평가 표현식 => 평가 결과
+
+  true || anything => true
+
+  false || anything => anything
+
+  true && anything => anything
+
+  false && anything => false

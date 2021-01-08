@@ -87,7 +87,7 @@ console.log(y); // 1
 
 - 함수도 코드 블록이므로 스코프를 만든다. 이때 함수 내의 코드블록은 함수 레벨 스코프에 중첩된다.
 
-  ![https://user-images.githubusercontent.com/68039555/93070442-d15ae880-f6b9-11ea-87fd-199730586cf2.png](https://user-images.githubusercontent.com/68039555/93070442-d15ae880-f6b9-11ea-87fd-199730586cf2.png)
+  
 
   ### **3.3 변수 호이스팅**
 
@@ -110,8 +110,6 @@ console.log(y); // 1
   ```
 
   - let 키워드로 선언한 변수는 스코프의 시작 지점부터 초기화 단계 시작 지점(변수 선언문)까지 변수를 참조할 수 없다. 스코프의 시작 지점부터 초기화 시작 지점까지 변수를 참조할 수 없는 구간을 일시적 사각지대(Temporal Dead Zone) 라고 부른다.
-
-  ![https://user-images.githubusercontent.com/68039555/93071796-8b9f1f80-f6bb-11ea-9f39-812b69f63346.png](https://user-images.githubusercontent.com/68039555/93071796-8b9f1f80-f6bb-11ea-9f39-812b69f63346.png)
 
   - 결국 let 키워드로 선언한 변수는 변수 호이스팅이 발생하지 않는 것처럼 보인다. 하지만 그렇게 보일뿐 실제는 그렇지 않다.
 

@@ -187,8 +187,6 @@ console.log(circle); // Circle {radius: 1, getDiameter: f}
   - 호출할 수 없는 객체는 함수객체가 아니다. 그러므로 함수로서 기능하는 함수 객체는 반드시 callable 이어야 한다. 따라서 모든 함수 객체는 호출할수 있다.
   - 하지만 모든 함수 객체가 [[Construct]]를 갖는 것은 아니다. 다시말해, 함수 객체는 constructor 일수도 있고, non-constructor일 수도 있다.
 
-  ![https://user-images.githubusercontent.com/68039555/93660851-17cf8f00-fa8e-11ea-87ef-f5b2312cb227.png](https://user-images.githubusercontent.com/68039555/93660851-17cf8f00-fa8e-11ea-87ef-f5b2312cb227.png)
-
   - 결론적으로 함수 객체는 callable 이면서 construct 이거나 callable이면서 non-constructor다. **즉, 모든 함수 객체는 호출할 수 있지만 모든 함수 객체를 생성자 함수로서 호출할 수 있는 것은 아니다.**
 
   

@@ -90,10 +90,6 @@ for (var i=0; i<3; i++) {
 } // 0 1 2
 ```
 
-- for 문의 실행 순서는 다음과 같다.
-
-![for 문](https://user-images.githubusercontent.com/68039555/91533680-43f26700-e94b-11ea-8982-18d34e37bdc8.png)
-
 - for 문의 변수 선언문, 조건식, 증감식은 모두 옵션이므로 반드시 사용할 필요는 없다.
 - for 문 내에 for 문을 중첩하여 사용할 수 있다.
 
