@@ -1,7 +1,5 @@
 # 03. React Component
 
-
-
 ## 1. 리액트가 하는 일
 
 - 리액트는 핵심 모듈 2개로 일을 한다.
@@ -17,37 +15,29 @@
 - 사용 예시
 
   ```jsx
-  // 
-  ReactDOM.render (
-  	<HelloMessage name="Taylor" />,
-  	document.getElementById('hello-example')
+  //
+  ReactDOM.render(
+    <HelloMessage name="Taylor" />,
+    document.getElementById("hello-example")
   );
   ```
 
   ```jsx
   // React 컴포넌트
   class HelloMessage extends React.Component {
-  	render() {
-  		return (
-  			<div>
-  				Hello {this.props.name}
-  			</div>
-  		);
-  	}
+    render() {
+      return <div>Hello {this.props.name}</div>;
+    }
   }
-  
+
   // HTMLElement
-  ReactDOM.render (
-  	<HelloMessage name="Taylor" />,
-  	document.getElementById('hello-example')
+  ReactDOM.render(
+    <HelloMessage name="Taylor" />,
+    document.getElementById("hello-example")
   );
   ```
 
   - 만들어진 리액트 컴포넌트를 실제 HTMLElement에 연결할 때 ReactDOM 라이브러리를 이용한다.
-
-
-
-
 
 ## 2. React Component 만들기
 
@@ -85,12 +75,12 @@
 
    ```jsx
    function FunctionComponent() {
-         return(
-         <div>
-           <h1>함수컴포넌트</h1>
-         </div>
-         );
-       }
+     return (
+       <div>
+         <h1>함수컴포넌트</h1>
+       </div>
+     );
+   }
    ```
 
 ### 2.4 컴포넌트 렌더링
@@ -113,17 +103,14 @@
 
   ```jsx
   function Welcom(props) {
-  	return <h1>Hello, {props.name}</h1>;
+    return <h1>Hello, {props.name}</h1>;
   }
-  const element = <Welcome name ="Sara" />;
-  ReactDOM.render(
-  	element,
-  	document.getElementById('root')
-  );
+  const element = <Welcome name="Sara" />;
+  ReactDOM.render(element, document.getElementById("root"));
   ```
 
   1. `<Welcome name="Sara" />` 엘리먼트로 `ReactDOM.render()`를 호출한다.
-  2. React는  {name: 'Sara'}를 props로 하여 `Welcome` 컴포넌트를 호출한다.
+  2. React는 {name: 'Sara'}를 props로 하여 `Welcome` 컴포넌트를 호출한다.
   3. `Welcome` 컴포넌트는 결과적으로 `<h1>Hello, Sara</h1>` 엘리먼트를 반환한다.
   4. React DOM은 `<h1>Hello, Sara</h1>` 엘리먼트와 일치하도록 DOM을 효율적으로 업데이트한다.
 
@@ -149,10 +136,7 @@ function App() {
   );
 }
 
-ReactDOM.render(
-  <App />,
-  document.getElementById('root')
-);
+ReactDOM.render(<App />, document.getElementById("root"));
 ```
 
 ### 2.6 컴포넌트 추출
@@ -162,24 +146,19 @@ ReactDOM.render(
 - 하나의 컴포넌트에서 컴포넌트를 작게 추출하는 것은 큰 앱에서 작업할 때 두각을 나타낸다. UI 일부가 여러번 사용되거나, UI 일부가 자체적으로 복잡한 경우에는 각각 별도의 컴포넌트로 만드는 것이 좋다.
 
 ```jsx
- function Comment(props) {
+function Comment(props) {
   return (
     <div className="Comment">
       <div className="UserInfo">
-        <img className="Avatar"
+        <img
+          className="Avatar"
           src={props.author.avatarUrl}
           alt={props.author.name}
         />
-        <div className="UserInfo-name">
-          {props.author.name}
-        </div>
+        <div className="UserInfo-name">{props.author.name}</div>
       </div>
-      <div className="Comment-text">
-        {props.text}
-      </div>
-      <div className="Comment-date">
-        {formatDate(props.date)}
-      </div>
+      <div className="Comment-text">{props.text}</div>
+      <div className="Comment-date">{formatDate(props.date)}</div>
     </div>
   );
 }
@@ -192,17 +171,10 @@ ReactDOM.render(
 ```jsx
 function Avatar(props) {
   return (
-    <img className="Avatar"
-      src={props.user.avatarUrl}
-      alt={props.user.name}
-    />
+    <img className="Avatar" src={props.user.avatarUrl} alt={props.user.name} />
   );
 }
 ```
-
-
-
-
 
 ## 3. Props 와 State
 
@@ -210,7 +182,7 @@ Props와 State는 렌더를 다시하게 만드는 요인이다. 둘 중 하나�
 
 ### 2.1 props
 
-- properties의 줄임말로써, 우리가 어떠한 값을 컴포넌트에게 전달해줘야 할 때, props를 사용한다.  즉, props는 컴포넌트 외부에서 컴포넌트에게 주는 데이터이다.
+- properties의 줄임말로써, 우리가 어떠한 값을 컴포넌트에게 전달해줘야 할 때, props를 사용한다. 즉, props는 컴포넌트 외부에서 컴포넌트에게 주는 데이터이다.
 - 함수 컴포넌트나 클래스 컴포넌트 모두 자체 Props를 수정해서는 안된다.
 - React에서는 자신의 props를 다룰 때 반드시 순수함수처럼 동작해야 한다. 즉, 불변성을 지켜야 한다.
 
@@ -221,10 +193,6 @@ Props와 State는 렌더를 다시하게 만드는 요인이다. 둘 중 하나�
 - State는 컴포넌트 내부에서 변경할 수 있는 데이터이다.
 
 - 둘 중 하나라도 변경이 발생하면 해당 랜더함수가 다시 실행되면서 컴포넌트를 다시 그린다.
-
-  
-
-
 
 ## 3. Render 함수
 

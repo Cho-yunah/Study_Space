@@ -2,8 +2,6 @@
 
 Hook은 React 버전 16.8에 새로 추가된 개념으로, Hook을 이용하여 Class를 작성할 필요없이 상태값과 여러 React의 기능을 사용할 수 있다.
 
-
-
 ## 1. Intro
 
 - React는 컴포넌트에 재사용 가능한 방법을 제공하지 않았고, 이를 해결하기 위해 props 또는 고차컴포넌트 등을 사용해왔다. 그러나 이런 패턴은 사용할 때 컴포넌트를 재구성해야 하며, 코드를 추적하기 어렵게 한다.
@@ -27,17 +25,15 @@ Hook은 React 버전 16.8에 새로 추가된 개념으로, Hook을 이용하여
 
   - 로직의 재사용성 : Hook은 컴포넌트로부터 상태관련 로직을 추상화하여 계층변화 없이 로직을 재사용할 수 있도록 도와준다.
 
-    
-
 ## 2. Hook 사용하기
 
-### 	2.1  기본 Hook ⇒ State Hook
+### 2.1 기본 Hook ⇒ State Hook
 
 - 버튼을 클릭하면 값이 증가하는 카운터 예시로 설명을 하면,
 
   ```jsx
   import React, **{useState}** from 'react';
-  
+
   function Example() {
   	**const [count, setCount] = useState(0);**
   	return (
@@ -53,11 +49,11 @@ Hook은 React 버전 16.8에 새로 추가된 개념으로, Hook을 이용하여
 
   - 위의 코드에서 `useState` 가 Hook이다. Hook 을 호출하여 함수 컴포넌트안에 state를 추가하는 것이데, 이 state는 컴포넌트가 다시 렌더링 되어도 그대로 유지된다. `useState` 는 현재의 state 값과 이 값을 업데이트하는 함수를 쌍으로 제공한다.
 
+  - useState로 값을 업데이트 할수 있게 해주는 hook이다.
+
   - 이 state를 업데이트하는 함수를 이벤트 핸들러나 다른 곳에서 호출할 수 있다. class의 `this.setState` 와 거의 유사하지만, 이전 state와 새로운 state를 합치지 않는다는 차이가 있다.
 
   - useState는 인자로 초기 state 값을 하나 받는다. 위의 카운터는 0부터 시작하기 때문에 초기값으로 0을 넣어준다. Hook의 state는 꼭 객체일 필요는 없다.
-
-    
 
   ### 2.2 여러 state변수 선언하기
 
@@ -67,17 +63,15 @@ Hook은 React 버전 16.8에 새로 추가된 개념으로, Hook을 이용하여
 function ExampleWithManyStates() {
   // 상태 변수를 여러 개 선언했습니다!
   const [age, setAge] = useState(42);
-  const [fruit, setFruit] = useState('banana');
-  const [todos, setTodos] = useState([{ text: 'Learn Hooks' }]);
+  const [fruit, setFruit] = useState("banana");
+  const [todos, setTodos] = useState([{ text: "Learn Hooks" }]);
   // ...
 }
 ```
 
 - 배열 디스트럭처링 문법은 state 변수들을 다른 변수 명으로 할당할 수 있게 해준다.
 
-
-
-### 	2.3 Effect Hook
+### 2.3 Effect Hook
 
 - React 컴포넌트 안에서 데이터를 가져오거나 구독하고, DOM을 직접 조작하는 동작을 'side effects'라고 한다. 다른 컴포넌트에 영향을 줄 수 있고, 렌더링 과정에서 구현할 수 없기 때문이다.
 - Effect Hook, 즉 `useEffect` 는 함수 컴포넌트 내에서 이런 side effects를 수행할 수 있게 해준다.
@@ -110,23 +104,17 @@ function Example() {
 - 기본적으로 React는 매번 렌더링 이후에effects를 실행한다. Effect를 해제할 필요가 있다면, 해제하는 함수를 반환해주면 된다.
 - Hook을 사용하면 서로 관련있는 코드들을 한군데에 모아서 작성할 수 있다.
 
-
-
-### 2.4  Hook 사용규칙
+### 2.4 Hook 사용규칙
 
 - Hook은 javascript 함수지만, 2가지 규칙을 준수해야 한다.
 
   1. 최상위에서만 Hook을 호출해야 한다. 반복문, 조건문, 중첩된 함수 내에서 hook을 실행하면 안된다.
   2. React 함수 컴포넌트 내에서만 Hook을 호출해야 한다. 일반 함수에서는 Hook을 호출해서는 안된다.
 
-  
-
 ### 2.5 Custom Hook
 
 - Custom Hook은 기능이라기보다는 컨벤션에 가깝다. 이름이 "use" 로 시작하고, 안에서 다른 Hook을 호출한다면 그 함수를 custom Hook이라고 부를수 있다.
 - 이벤트 핸들링, 애니메이션, 타이밍 등 많은 경우에 custom Hook을 사용할 수 있다.
-
-
 
 ### 2.6 다른 내장 Hook
 
