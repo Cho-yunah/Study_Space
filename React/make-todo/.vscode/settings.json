@@ -1,0 +1,5 @@
+{
+    "editor.defaultFormatter": "formulahendry.auto-close-tag",
+    "editor.copyWithSyntaxHighlighting": false,
+    "auto-close-tag.enableAutoCloseTag": true
+}
