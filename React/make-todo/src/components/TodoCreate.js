@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import styled,{ css } from "styled-components";
 import { MdAdd } from "react-icons/md";
-import { useTodoDispatch, useTodoNextId } from "../TodoContext";
+import { useNextId, useTodoDispatch } from "../TodoContext";
 
 const CircleButton = styled.button`
   background: #38d9a9;
@@ -77,42 +77,39 @@ const Input = styled.input`
 `;
 
 function TodoCreate() {
-    const [open, setOpen] = useState(false)
-    const [value, setValue] = useState('')
+  const [open, setOpen] = useState(false)
+  const [value, setValue] = useState('')
 
-    const onToggle=() => setOpen(!open)
-    const onChange= e => setValue(e.target.value)
-    const onSubmit =e => {
+  const dispatch = useTodoDispatch();
+  const nextId = useNextId();
+
+  const onToggle= ()=> setOpen(!open)
+  const onChange = e=> setValue(e.target.value)
+  const onSubmit = (e) => {
     e.preventDefault();
     dispatch({
-      type: 'CREATE',
-      todo: {
-        id: nextId.current, text: value, done: false
-      }
+      type: 'CREATE', todo: {id: nextId.current, text: value, done: false}
     })
-    setValue('')
-    setOpen(false)
-    nextId.current+= 1;
+    setValue('');
+    setOpen(false);
+    nextId.current+=1;
   }
 
-    const dispatch = useTodoDispatch()
-    const nextId = useTodoNextId();
-
     return (
-        <>
-        {open && (
-            <InsertFormPositioner>
-                <InsertForm onSubmit ={onSubmit}>
-                  <Input placeholder="할일을 입력후, Enter을 누르세요" 
-                  autoFocus onChange={onChange} value= {value} />
-                  </InsertForm>
-            </InsertFormPositioner>
-        )}
-        <CircleButton onClick={onToggle} open= {open}>
-            <MdAdd/>
-        </CircleButton>
-        </>
+      <> 
+      {open && 
+        <InsertFormPositioner >
+          <InsertForm onSubmit= {onSubmit}>
+            <Input autoFocus placeholder="할일을 입력하고, Enter키를 누르세요." 
+            onChange= {onChange} value= {value}/>
+          </InsertForm>
+      </InsertFormPositioner>
+      }
+      <CircleButton onClick={onToggle} open={open}>
+        <MdAdd/>
+      </CircleButton>
+       </>
     );
 }
 
-export default React.memo(TodoCreate);
+export default TodoCreate;

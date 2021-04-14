@@ -8,18 +8,14 @@ const TodoTemplateBlock = styled.div`
     background: white;
     border-radius: 16xp;
     box-shadow: 0 0 8px rgba(0,0,0,0.04);
-
     margin: 0 auto;
     margin-top: 96px;
     margin-bottom: 32px;
 `
 
-function TodoTemplate({children}) {
-    return (
-        <TodoTemplateBlock>
-          {children}
-        </TodoTemplateBlock>
-    );
-}
 
-export default TodoTemplate;
+function TodoTemplate({ children }) {
+    return <TodoTemplateBlock>{children}</TodoTemplateBlock>;
+  }
+  
+  export default TodoTemplate;
