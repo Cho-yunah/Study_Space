@@ -1,4 +1,4 @@
-# 05_1_Conditional_Rendering
+# 06_Conditional_Rendering
 
 React 에서는 원하는 동작을 캡슐화하는 컴포넌트를 만들수 있다. 
 
