@@ -1,0 +1,7 @@
+{
+  "posts": [ 
+    { "id": "apple", "title": "applyJuice", "body": "red" },
+    { "id": "banana", "title": "bananaJuice", "body": "yellow" },
+    { "id": "orange", "title": "orangeJuice", "body": "Orange" }
+]
+}
