@@ -1,63 +1,94 @@
 export const createPromiseThunk = (type, promiseCreator) => {
-  const thunkCreator = (param) => async (dispatch) => {
-    dispatch({ type });
+  const [SUCCESS, ERROR] = [`${type}_SUCCESS`, `${type}_ERROR`];
+
+  return (param) => async (dispatch) => {
+    dispatch({ type, param });
     try {
       const payload = await promiseCreator(param);
-      dispatch({
-        type: SUCCESS,
-        payload,
-      });
+      dispatch({ type: SUCCESS, payload });
     } catch (e) {
-      dispatch({
-        type: ERROR,
-        payload: e,
-        error: true,
-      });
-    }
-  };
-  return thunkCreator;
-};
-
-export const handleAsyncActions = (type, key, keepData) => {
-  // type은 thunk의 타입과 같다.
-  const [SUCCESS, ERROR] = [`${type}_SUCCESS`, `${type}_ERROR`];
-  return (state, action) => {
-    switch (action.type) {
-      case type:
-        return {
-          ...state,
-          [key]: reducerUtils.loading(keepData ? state[key].data : null),
-        };
-      case SUCCESS:
-        return {
-          ...state,
-          posts: reducerUtils.success(aciton.payoload),
-        };
-      case ERROR:
-        return {
-          ...state,
-          [key]: reducerUtils.error(action.payload),
-        };
-      default:
-        return state;
+      dispatch({ type: ERROR, payload: e, error: true });
     }
   };
 };
 
 export const reducerUtils = {
-  initial: (data = null) => ({
+  initial: (initialData = null) => ({
     loading: false,
-    data,
+    data: initialData,
     error: null,
   }),
   loading: (prevState = null) => ({
+    loading: true,
     data: prevState,
+    error: null,
+  }),
+  success: (payload) => ({
     loading: false,
+    data: payload,
     error: null,
   }),
   error: (error) => ({
-    data: null,
     loading: false,
-    error,
+    data: null,
+    error: error,
   }),
+};
+
+const defaultIdSelector = (param) => param;
+export const createPromiseThunkById = (
+  type,
+  promiseCreator,
+  idSelector = defaultIdSelector
+) => {
+  const [SUCCESS, ERROR] = [`${type}_SUCCESS`, `${type}_ERROR`];
+
+  return (param) => async (dispatch) => {
+    const id = idSelector(param);
+    dispatch({ type, meta: id });
+    try {
+      const payload = await promiseCreator(param);
+      dispatch({ type: SUCCESS, payload, meta: id });
+    } catch (e) {
+      dispatch({ type: ERROR, error: true, payload: e, meta: id });
+    }
+  };
+};
+
+export const handleAsyncActionsById = (type, key, keepData = false) => {
+  const [SUCCESS, ERROR] = [`${type}_SUCCESS`, `${type}_ERROR`];
+  return (state, action) => {
+    const id = action.meta;
+    switch (action.type) {
+      case type:
+        return {
+          ...state,
+          [key]: {
+            ...state[key],
+            [id]: reducerUtils.loading(
+              // state[key][id]가 만들어져있지 않을 수도 있으니까 유효성을 먼저 검사 후 data 조회
+              keepData ? state[key][id] && state[key][id].data : null
+            ),
+          },
+        };
+      case SUCCESS:
+        return {
+          ...state,
+          [key]: {
+            ...state[key],
+            [id]: reducerUtils.success(action.payload),
+          },
+        };
+      case ERROR:
+        return {
+          ...state,
+          [key]: {
+            ...state[key],
+            [id]: reducerUtils.error(action.payload),
+          },
+        };
+      default:
+        return state;
+    }
+  };
 };
