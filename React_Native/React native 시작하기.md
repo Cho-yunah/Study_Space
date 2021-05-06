@@ -55,15 +55,15 @@
         ```jsx
         // Uninstall legacy cli
         npm uninstall -g react-native-cli
-
+    
         // install new cli
         npm i -g @react-native-community/cli
-
+    
         //init tyscript project
         npx react-native init MyApp --template react-native-template-typescript
         ```
-!
-<img width="503" alt="스크린샷 2021-05-02 오후 3 32 25" src="https://user-images.githubusercontent.com/68039555/117239597-0e9f0100-ae6a-11eb-847d-685904269aa7.png">
+    !
+    <img width="503" alt="스크린샷 2021-05-02 오후 3 32 25" src="https://user-images.githubusercontent.com/68039555/117239597-0e9f0100-ae6a-11eb-847d-685904269aa7.png" style="zoom:50%;" >
 
         터미널에서 이 사진과 같은 모습을 볼 수 있다면, 설치완료!
 
@@ -77,7 +77,5 @@
 6. 컴퓨터 성능에 따라 프로젝트가 빌드되는 시간이 다르다. 빌드가 될때까지 기다린다. 빌드가 잘 되었다면, 바탕화면에 프로젝트 앱 아이콘이 하나 생기고, 다음과 같은 화면을 볼수 있다.
 
 !
-<img width="266" alt="_2021-04-29__11 54 08" src="https://user-images.githubusercontent.com/68039555/117239642-25455800-ae6a-11eb-9de9-0ed1494f12cc.png">
-
-!
-<img width="407" alt="_2021-04-29__11 57 03" src="https://user-images.githubusercontent.com/68039555/117239676-31c9b080-ae6a-11eb-8faa-8f0794a7dee8.png">
+<img width="266" alt="_2021-04-29__11 54 08" src="https://user-images.githubusercontent.com/68039555/117239642-25455800-ae6a-11eb-9de9-0ed1494f12cc.png" style="zoom: 67%;" >
+<img width="407" alt="_2021-04-29__11 57 03" src="https://user-images.githubusercontent.com/68039555/117239676-31c9b080-ae6a-11eb-8faa-8f0794a7dee8.png" style="zoom:50%;" >
